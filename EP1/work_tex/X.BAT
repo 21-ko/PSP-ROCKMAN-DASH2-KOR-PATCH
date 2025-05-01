@@ -1,0 +1,2 @@
+python XTex.py
+pause
