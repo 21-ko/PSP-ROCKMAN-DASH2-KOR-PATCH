@@ -93,10 +93,10 @@
 	// 11
 	sll	v0,a0,0x2
 	addu	v0,v0,a3
-	addi	v0,v0,2
+	addiu	v0,v0,4
 	lw	v1,0x0(v0)
 	addu	v1,v1,a3
-	addiu	v1,v1,4
+	addi	v1,v1,0x2
 	jr	ra
 	sw	v1,0x34(a2)
 	
