@@ -559,10 +559,10 @@
 	// 12
 	sll	v1,v1,0x2
 	addu	v1,v1,t1
-	addi v1,v1,2
-	lhu	a0,0x0(v1)
+	addiu v1,v1,4
+	lw	a0,0x0(v1)
 	addu	a0,a0,t1
-	addiu	a0,a0,4
+	addi	a0,a0,2
 	sw	a0,0x30(t0)
 	jr	ra
 	nop
@@ -594,10 +594,10 @@
 	// 11
 	sll	v0,a0,0x2
 	addu	v0,v0,t0
-	addi	v0,v0,2
-	lhu	v1,0x0(v0)
+	addiu	v0,v0,4
+	lw	v1,0x0(v0)
 	addu	v1,v1,t0
-	addiu	v1,v1,4
+	addi	v1,v1,2
 	jr	ra
 	sw	v1,0x34(a3)
 
