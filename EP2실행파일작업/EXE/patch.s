@@ -14,8 +14,27 @@
 .org 0x08838468
 	sltiu	v0,v1,0xF1
 
+// 버튼 문자 구별
 .org 0x08838F48
-	li	v1,0xF1
+	lui	v1,0x090A
+	ori	v1,0xE420
+	jr	v1
+	nop
+
+.org 0x090AE420+0x202290
+	addiu	v1,a0,-0x51
+	sltiu	v1,v1,4
+	beq	v1,zero,0x090AE420+(8*4)+0x202290  // 아니라면 돌아가기
+	lh	fp,0x0(v0)
+	li	v1,0x08839050
+	jr	v1
+	nop
+	
+	// 8
+	li	v1,0x08838F58
+	jr v1
+	andi	v1,t0,0xFF
+	
 
 .org 0x08838F58
 	sltiu	v0,v1,0xF1
@@ -74,7 +93,7 @@
 	nop
 	
 	// 9
-	li	t4,0x090AE420  // 테이블 위치
+	li	t4,0x090AE460  // 테이블 위치
 	addu	t4,t4,a0  // 문자 너비 위치 (테이블 위치 + 문자 인덱스)
 	lbu	s6,0x00(t4)  // 문자 너비 정의
 	li	s7,0xC
@@ -85,7 +104,7 @@
 	
 	
 // 문자 너비 테이블
-.org 0x090AE420+0x202290
+.org 0x090AE460+0x202290
 .byte 12  // ０
 .byte 12  // １
 .byte 12  // ２
@@ -284,18 +303,17 @@
 	.word	0x0320F809 - 0x02201000  //jalr	t9
 	nop  // 0883905C
 	
-.org 0x08838F4C
-	beq	a0,v1,0x08839050
-	
+// 버튼 CLUT ID 조정
 .org 0x090AE070+0x202290
-	lbu	v0,0x1(t1)
+	lbu	v0,0x0(t1)
 	lh	a0,-0x5D5C(a2)
-	addiu	v0,v0,-0x15
+	addiu	v0,v0,-0x51
 	andi	t2,v0,0xFF
 	slti	v1,t2,0x4
-	li	t9,0x08838F54
-	jr	t9
 	movn	fp,a0,v1
+	li	t9,0x08838F58
+	jr	t9
+	andi	v1,t0,0xFF
 	nop
 
 // 좌표 불러오기
